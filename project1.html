@@ -11773,7 +11773,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -11802,7 +11802,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;survey_results_public.csv&#39;</span><span class="p">)</span>
@@ -11819,7 +11819,7 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[5]:</div>
+<div class="prompt output_prompt">Out[2]:</div>
 
 
 
@@ -12352,7 +12352,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
@@ -12368,7 +12368,7 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[6]:</div>
+<div class="prompt output_prompt">Out[3]:</div>
 
 
 
@@ -12394,13 +12394,310 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Access-data">Access data<a class="anchor-link" href="#Access-data">&#182;</a></h2>
+<h2 id="Understand-the-business:-Questions-to-explore">Understand the business: Questions to explore<a class="anchor-link" href="#Understand-the-business:-Questions-to-explore">&#182;</a></h2><ol>
+<li>Is there any difference between male and female in terms of education?</li>
+<li>For people who are using stackoverflow, how many percents of them think it is really helpful?</li>
+<li>Are those people who likes stackoverflow making more money?</li>
+</ol>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## question 1: Is there any difference between male and female in terms of education?</span>
+<span class="n">df_q1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;FormalEducation&#39;</span><span class="p">,</span><span class="s1">&#39;Gender&#39;</span><span class="p">]]</span>
+<span class="n">male_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Male&quot;</span><span class="p">])</span>
+<span class="n">female_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Female&quot;</span><span class="p">])</span>
+<span class="n">total_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">gender_portion</span><span class="p">(</span><span class="n">df_q1</span><span class="p">,</span> <span class="n">degree</span><span class="p">):</span>
+    <span class="n">male</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Male&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">FormalEducation</span> <span class="o">==</span> <span class="n">degree</span><span class="p">)])</span><span class="o">/</span><span class="n">male_num</span>
+    <span class="n">female</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Female&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">FormalEducation</span> <span class="o">==</span> <span class="n">degree</span><span class="p">)])</span><span class="o">/</span><span class="n">female_num</span>
+    <span class="k">return</span> <span class="n">male</span><span class="p">,</span> <span class="n">female</span>
+
+
+<span class="c1"># Bachelor percent in male and female</span>
+<span class="n">Bache_male</span><span class="p">,</span> <span class="n">Bache_female</span> <span class="o">=</span> <span class="n">gender_portion</span><span class="p">(</span><span class="n">df_q1</span><span class="p">,</span><span class="s2">&quot;Bachelor&#39;s degree&quot;</span><span class="p">)</span>
+
+<span class="c1"># Master percent in male and female</span>
+<span class="n">MS_male</span><span class="p">,</span> <span class="n">MS_female</span> <span class="o">=</span> <span class="n">gender_portion</span><span class="p">(</span><span class="n">df_q1</span><span class="p">,</span><span class="s2">&quot;Master&#39;s degree&quot;</span><span class="p">)</span>
+
+<span class="c1"># PHD percent in male and female</span>
+<span class="n">PHD_male</span><span class="p">,</span> <span class="n">PHD_female</span> <span class="o">=</span> <span class="n">gender_portion</span><span class="p">(</span><span class="n">df_q1</span><span class="p">,</span><span class="s2">&quot;Doctoral degree&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;For Bachelor, the percent for male and female are &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Bache_male</span><span class="p">)</span> <span class="o">+</span><span class="s2">&quot; and &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Bache_female</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;For Master, the percent for male and female are &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">MS_male</span><span class="p">)</span> <span class="o">+</span><span class="s2">&quot; and &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">MS_female</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;For PHD, the percent for male and female are &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PHD_male</span><span class="p">)</span> <span class="o">+</span><span class="s2">&quot; and &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PHD_female</span><span class="p">))</span>
+
+<span class="c1">##answer to question: there are difference between male and female for education. For all bachelor, Master and PHD, women have higher </span>
+<span class="c1">## percents.</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>For Bachelor, the percent for male and female are 0.42426161005413277 and 0.5080769230769231
+For Master, the percent for male and female are 0.22207097407325335 and 0.2653846153846154
+For PHD, the percent for male and female are 0.026148342777549148 and 0.03769230769230769
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Distribution plot of education level by gender.</span>
+<span class="n">gender_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Male&#39;</span><span class="p">:[</span><span class="n">Bache_male</span><span class="p">,</span><span class="n">MS_male</span><span class="p">,</span><span class="n">PHD_male</span><span class="p">],</span><span class="s1">&#39;Female&#39;</span><span class="p">:[</span><span class="n">Bache_female</span><span class="p">,</span><span class="n">MS_female</span><span class="p">,</span><span class="n">PHD_female</span><span class="p">]}</span>
+<span class="n">gender_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">gender_data</span><span class="p">,</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Bachelor&#39;</span><span class="p">,</span><span class="s1">&#39;Master&#39;</span><span class="p">,</span><span class="s1">&#39;PhD&#39;</span><span class="p">])</span>
+<span class="n">gender_df</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Percent&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[39]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Text(0,0.5,&#39;Percent&#39;)</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYUAAAEeCAYAAABlggnIAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADl0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uIDIuMi4yLCBodHRwOi8vbWF0cGxvdGxpYi5vcmcvhp/UCwAAF7FJREFUeJzt3X2wHXWd5/H3JzyYDBMZF2INJuDNKoIZyRBNABnLB4ZHrQrroBJca3EYhnVXFGXETbkry2K5q4jOYGQVEAVZBBVGjMII4hCtcUUSBuQp8iBGueJqJjqAyFPgu3+ck/aSXO49SW7fcy55v6pSdbr716e/Nyc5n/v7dfevU1VIkgQwrd8FSJIGh6EgSWoYCpKkhqEgSWoYCpKkhqEgSWoYCpKkhqEgSWoYCpKkxvb9LmBz7brrrjU0NNTvMiRpSrnxxhv/papmjdduyoXC0NAQq1at6ncZkjSlJPlpL+0cPpIkNQwFSVLDUJAkNabcOQVJ27YnnniC4eFhHn300X6XMpCmT5/OnDlz2GGHHbZof0NB0pQyPDzMzJkzGRoaIkm/yxkoVcW6desYHh5m7ty5W/QeDh9JmlIeffRRdtllFwNhFEnYZZddtqoXZShImnIMhGe2tX83hoIkqdHqOYUkhwNnAdsBn62qj2y0/e3Ax4Cfd1d9qqo+22ZNkp5dhpZeOaHvt+Yjbxi3TRLe9ra3cdFFFwGwfv16dtttN/bff3++8Y1vPON+K1as4MwzzxyzTb+1FgpJtgPOBg4BhoGVSZZX1R0bNf1SVZ3YVh1Tzmk7T/LxHpjc40nPAjvttBO33XYbjzzyCDNmzOBb3/oWs2fP7ndZE6LN4aP9gHuq6t6qehy4FDiyxeNJ0qQ54ogjuPLKTi/lkksu4Zhjjmm23XDDDRx44IEsWLCAAw88kDvvvHOT/R9++GGOO+44Fi1axIIFC/ja1742abWPpc1QmA3cN2J5uLtuY0cluSXJZUl2b7EeSZowS5Ys4dJLL+XRRx/llltuYf/992+27b333nz3u9/lpptu4vTTT+cDH/jAJvt/+MMf5qCDDmLlypVcd911nHLKKTz88MOT+SOMqs1zCqOdAq+Nlr8OXFJVjyV5B3AhcNAmb5ScAJwAsMcee0x0nZK02ebPn8+aNWu45JJLeP3rX/+0bQ888ADHHnssd999N0l44oknNtn/mmuuYfny5Zx55plA51Lbn/3sZ7z0pS+dlPqfSZuhMAyM/M1/DnD/yAZVtW7E4nnAR0d7o6o6FzgXYOHChRsHiyT1xeLFi3nf+97HihUrWLfu919nH/zgB3nd617HV7/6VdasWcNrX/vaTfatKi6//HL22muvSax4fG0OH60E9kwyN8mOwBJg+cgGSXYbsbgYWN1iPZI0oY477jhOPfVU9tlnn6etf+CBB5oTzxdccMGo+x522GEsW7aMqs7vuTfddFOrtfaqtZ5CVa1PciJwNZ1LUj9XVbcnOR1YVVXLgXcnWQysB34NvL2teiQ9O/VyCWlb5syZw0knnbTJ+ve///0ce+yxfOITn+CggzYZEQc6vYn3vOc9zJ8/n6piaGhoIC5VzYaUmioWLlxYz+qH7HhJqjSm1atX933cfdCN9neU5MaqWjjevt7RLElqGAqSpIahIElqGAqSpIahIElqGAqSpIaP45Q0tU30Zdw9XKa93XbbPe2GtSuuuIKhoaGJraPrggsuYNWqVXzqU59q5f03ZihI0maaMWMGN998c7/LaIXDR5I0AZ588klOOeUUFi1axPz58znnnHOAzoN1XvOa1/CWt7yFl7zkJSxdupSLL76Y/fbbj3322Ycf//jHAHz9619n//33Z8GCBRx88MH88pe/3OQYa9eu5aijjmLRokUsWrSI733vexP+cxgKkrSZHnnkEfbdd1/23Xdf3vjGNwJw/vnns/POO7Ny5UpWrlzJeeedx09+8hMAfvjDH3LWWWdx6623ctFFF3HXXXdxww03cPzxx7Ns2TIAXvWqV3H99ddz0003sWTJEs4444xNjnvSSSfx3ve+l5UrV3L55Zdz/PHHT/jP5vCRJG2m0YaPrrnmGm655RYuu+wyoDMp3t13382OO+7IokWL2G23zvyfL3rRizj00EMB2GeffbjuuusAGB4e5uijj+YXv/gFjz/+OHPnzt3kuNdeey133PH7h1c++OCDPPTQQ8ycOXPCfjZDQZImQFWxbNkyDjvssKetX7FiBc95znOa5WnTpjXL06ZNY/369QC8613v4uSTT2bx4sWsWLGC0047bZNjPPXUU3z/+99nxowZrf0cDh9J0gQ47LDD+PSnP908UOeuu+7arCepjZxu+8ILLxy1zaGHHvq0q5DaONltT0HS1DYg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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## question 2:For people who are using stackoverflow, how many percents of them think it is really helpful?</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Agree&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Strongly agree&quot;</span><span class="p">)])</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1">## There are about 60% of people think stackoverflow is helpful.</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[19]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.5916095890410958</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Bar plot of sentiment on stack overflow</span>
+<span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[44]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1dc73a43080&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## question 3:Are those people who likes stackoverflow making more money?</span>
+<span class="n">like_sal</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Agree&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Strongly agree&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">Salary</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">dislike_sal</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Disagree&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Strongly disagree&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">Salary</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The average salary for people like stackoverflow is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">like_sal</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The average salary for people dislike stackoverflow is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dislike_sal</span><span class="p">))</span>
+
+<span class="c1">##People who dislike stackoverflow make more averaged money.</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The average salary for people like stackoverflow is 57149.6659134539
+The average salary for people dislike stackoverflow is 60858.65888772343
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## distribution of mean salary by sentiment on stack overflow</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;StackOverflowHelpful&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">Salary</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[46]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1dc0626d4a8&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Understand-data">Understand data<a class="anchor-link" href="#Understand-data">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -12429,7 +12726,7 @@ div#notebook {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[18]:</div>
+<div class="prompt output_prompt">Out[4]:</div>
 
 
 
@@ -12451,7 +12748,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&lt;</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.75</span><span class="o">*</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
@@ -12467,7 +12764,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[24]:</div>
+<div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -12486,13 +12783,13 @@ dtype: int64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Handel-missing-data">Handel missing data<a class="anchor-link" href="#Handel-missing-data">&#182;</a></h2>
+<h2 id="Prepare-data:-Handel-missing-data">Prepare data: Handel missing data<a class="anchor-link" href="#Prepare-data:-Handel-missing-data">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## If the missing value amount is more than 75% of the data, remove the columns.There are 14 columns are removed.</span>
@@ -12511,7 +12808,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[53]:</div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -12528,7 +12825,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Select important variables to salary</span>
@@ -12547,7 +12844,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[54]:</div>
+<div class="prompt output_prompt">Out[7]:</div>
 
 
 
@@ -12569,7 +12866,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_2</span> <span class="o">=</span> <span class="n">df_sim</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Salary&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -12587,7 +12884,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[55]:</div>
+<div class="prompt output_prompt">Out[8]:</div>
 
 
 
@@ -12604,7 +12901,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## Is there any null in current dataframw after removing nulll salary?</span>
@@ -12622,7 +12919,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[56]:</div>
+<div class="prompt output_prompt">Out[9]:</div>
 
 
 
@@ -12644,7 +12941,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -12660,7 +12957,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[105]:</div>
+<div class="prompt output_prompt">Out[10]:</div>
 
 
 
@@ -12744,7 +13041,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[100]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">##We will impute the missing value for the other four variables.</span>
@@ -12769,7 +13066,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[100]:</div>
+<div class="prompt output_prompt">Out[11]:</div>
 
 
 
@@ -12847,7 +13144,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[101]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_final</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
@@ -12863,7 +13160,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[101]:</div>
+<div class="prompt output_prompt">Out[12]:</div>
 
 
 
@@ -12884,7 +13181,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_final</span><span class="o">.</span><span class="n">shape</span>
@@ -12900,7 +13197,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[107]:</div>
+<div class="prompt output_prompt">Out[13]:</div>
 
 
 
@@ -12919,13 +13216,13 @@ dtype: int64</pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Deal-with-categorical-variables">Deal with categorical variables<a class="anchor-link" href="#Deal-with-categorical-variables">&#182;</a></h2>
+<h2 id="Prepare-data:--Deal-with-categorical-variables">Prepare data:  Deal with categorical variables<a class="anchor-link" href="#Prepare-data:--Deal-with-categorical-variables">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[108]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## creat dummuy variables for CareerSatisfaction,JobSatisfaction,StackOverflowSatisfaction</span>
@@ -12939,7 +13236,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[109]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">x_final</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -12955,7 +13252,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[109]:</div>
+<div class="prompt output_prompt">Out[15]:</div>
 
 
 
@@ -13136,7 +13433,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[110]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">x_final</span><span class="o">.</span><span class="n">shape</span>
@@ -13152,7 +13449,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[110]:</div>
+<div class="prompt output_prompt">Out[16]:</div>
 
 
 
@@ -13169,7 +13466,7 @@ dtype: int64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[104]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">df_2</span><span class="o">.</span><span class="n">Salary</span>
@@ -13186,7 +13483,7 @@ dtype: int64</pre>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[104]:</div>
+<div class="prompt output_prompt">Out[17]:</div>
 
 
 
@@ -13232,6 +13529,14 @@ dtype: int64</pre>
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Evaluate-the-model">Evaluate the model<a class="anchor-link" href="#Evaluate-the-model">&#182;</a></h3>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[114]:</div>
@@ -13266,47 +13571,14 @@ test score is 0.037595026232477236
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Questions-to-explore">Questions to explore<a class="anchor-link" href="#Questions-to-explore">&#182;</a></h2><ol>
-<li>Is there any difference between male and female in terms of education?</li>
-<li>For people who are using stackoverflow, how many percents of them think it is really helpful?</li>
-<li>Are those people who likes stackoverflow making more money?</li>
-</ol>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## question 1: Is there any difference between male and female in terms of education?</span>
-<span class="n">df_q1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;FormalEducation&#39;</span><span class="p">,</span><span class="s1">&#39;Gender&#39;</span><span class="p">]]</span>
-<span class="n">male_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Male&quot;</span><span class="p">])</span>
-<span class="n">female_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Female&quot;</span><span class="p">])</span>
-<span class="n">total_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 
-<span class="c1"># Bachelor percent in male and female</span>
-<span class="n">Bache_male</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Male&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">FormalEducation</span> <span class="o">==</span> <span class="s2">&quot;Bachelor&#39;s degree&quot;</span><span class="p">)])</span><span class="o">/</span><span class="n">male_num</span>
-<span class="n">Bache_female</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Female&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">FormalEducation</span> <span class="o">==</span> <span class="s2">&quot;Bachelor&#39;s degree&quot;</span><span class="p">)])</span><span class="o">/</span><span class="n">female_num</span>
-
-<span class="c1"># Master percent in male and female</span>
-<span class="n">MS_male</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Male&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">FormalEducation</span> <span class="o">==</span> <span class="s2">&quot;Master&#39;s degree&quot;</span><span class="p">)])</span><span class="o">/</span><span class="n">male_num</span>
-<span class="n">MS_female</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Female&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">FormalEducation</span> <span class="o">==</span> <span class="s2">&quot;Master&#39;s degree&quot;</span><span class="p">)])</span><span class="o">/</span><span class="n">female_num</span>
-
-<span class="c1"># PHD percent in male and female</span>
-<span class="n">PHD_male</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Male&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">FormalEducation</span> <span class="o">==</span> <span class="s2">&quot;Doctoral degree&quot;</span><span class="p">)])</span><span class="o">/</span><span class="n">male_num</span>
-<span class="n">PHD_female</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_q1</span><span class="p">[(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">Gender</span> <span class="o">==</span> <span class="s2">&quot;Female&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_q1</span><span class="o">.</span><span class="n">FormalEducation</span> <span class="o">==</span> <span class="s2">&quot;Doctoral degree&quot;</span><span class="p">)])</span><span class="o">/</span><span class="n">female_num</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;For Bachelor, the percent for male and female are &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Bache_male</span><span class="p">)</span> <span class="o">+</span><span class="s2">&quot; and &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Bache_female</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;For Master, the percent for male and female are &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">MS_male</span><span class="p">)</span> <span class="o">+</span><span class="s2">&quot; and &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">MS_female</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;For PHD, the percent for male and female are &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PHD_male</span><span class="p">)</span> <span class="o">+</span><span class="s2">&quot; and &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PHD_female</span><span class="p">))</span>
-
-<span class="c1">##answer to question: there are difference between male and female for education. For all bachelor, Master and PHD, women have higher </span>
-<span class="c1">## percents.</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;jupyter nbconvert --to html project1.ipynb&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -13319,90 +13591,15 @@ test score is 0.037595026232477236
 
 <div class="output_area">
 
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>For Bachelor, the percent for male and female are 0.42426161005413277 and 0.5080769230769231
-For Master, the percent for male and female are 0.22207097407325335 and 0.2653846153846154
-For PHD, the percent for male and female are 0.026148342777549148 and 0.03769230769230769
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## question 2:For people who are using stackoverflow, how many percents of them think it is really helpful?</span>
-<span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Agree&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Strongly agree&quot;</span><span class="p">)])</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-<span class="c1">## There are about 60% of people think stackoverflow is helpful.</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[13]:</div>
+<div class="prompt output_prompt">Out[19]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.5916095890410958</pre>
+<pre>0</pre>
 </div>
 
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## question 3:Are those people who likes stackoverflow making more money?</span>
-<span class="n">like_sal</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Agree&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Strongly agree&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">Salary</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">dislike_sal</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Disagree&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">StackOverflowHelpful</span> <span class="o">==</span> <span class="s2">&quot;Strongly disagree&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">Salary</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The average salary for people like stackoverflow is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">like_sal</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The average salary for people dislike stackoverflow is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dislike_sal</span><span class="p">))</span>
-
-<span class="c1">##People who dislike stackoverflow make more averaged money.</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>The average salary for people like stackoverflow is 57149.6659134539
-The average salary for people dislike stackoverflow is 60858.65888772343
-</pre>
-</div>
 </div>
 
 </div>
